@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      /* ===== Base ===== */
+      :root {
+        --accent: green;
+        --muted: #6b7280;
+        --bg: #f6f8fb;
+        --card: #ffffff;
+        --radius: 14px;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+      /*==================*/
+
+      /* Create two equal columns that floats next to each other */
+      .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+        /*height: 300px; */ /* Should be removed. Only for demonstration */
+      }
+
+      /* Clear floats after the columns */
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      /*
+Source - https://stackoverflow.com/a/16106788
+Posted by Anselm, modified by community. See post 'Timeline' for change history
+Retrieved 2025-11-17, License - CC BY-SA 4.0
+*/
+      /*
+
+      input[type="date"]::-webkit-datetime-edit {
+        padding: 1em;
+      }
+      input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+        background: silver;
+      }
+      input[type="date"]::-webkit-datetime-edit-text {
+        color: red;
+        padding: 0 0.3em; 
+      }
+      
+      input[type="date"]::-webkit-datetime-edit-month-field {
+        color: blue;
+      }
+      
+      input[type="date"]::-webkit-datetime-edit-day-field {
+        color: green;
+      }
+      input[type="date"]::-webkit-datetime-edit-year-field {
+        color: purple;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+        display: none;
+      }
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        background: orange;
+      }
+
+      input[type="date"] {
+        background: transparent;
+        border-radius: 5%;
+         color: white;
+         border: none;  
+        color-scheme: dark;
+      }
+
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(100%);
+      }
+
+      */
+      /*
+Source - https://stackoverflow.com/a/46052094
+Posted by Vigneshwaran R, modified by community. See post 'Timeline' for change history
+Retrieved 2025-11-17, License - CC BY-SA 4.0
+*/
+      /*
+      input[type="date"] {
+        background-color: red;
+        outline: none;
+      }
+      */
+
+      /*
+      input[type="date"]::-webkit-clear-button {
+        font-size: 18px;
+        height: 30px;
+        position: relative;
+      }
+
+      input[type="date"]::-webkit-inner-spin-button {
+        height: 28px;
+      }
+
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        font-size: 15px;
+      }
+      */
+
+      /* ===== Search panel ===== */
+      .search {
+        background: var(--card);
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        background-color: #2196f3;
+      }
+      .search .field {
+        flex: 1;
+        min-width: 140px;
+      }
+      .search label {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      .search input[type="text"],
+      .search input[type="date"],
+      .search select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #e6eef9;
+        background: #fbfdff;
+      }
+      .search button {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      /*===================================*/
+
+      /* ===== Rooms grid ===== */
+      .rooms {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 22px;
+        border-color: green;
+        border-width: 10px;
+        /*background-color: #2196f3;*/
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 14px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #d2eafd;
+      }
+      .room-media {
+        height: 200px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #e6f2ff, #f7fbff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*font-weight: 700;*/
+        color: var(--accent);
+      }
+      .room-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .price {
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .book-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 9px;
+        background: #eef6ff;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /*===================================*/
+
+      #myDIV {
+        height: 300px;
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 10px;
+        background-color: #2196f3;
+        padding: 10px;
+        /*grid: 100px / auto auto;*/
+      }
+      #myDIV div {
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: left;
+        padding: 20px 0;
+        font-size: 15px;
+      }
+
+      .galleryimgsize {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+      }
+
+      .galleryimgsize img {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="search" aria-label="search panel">
+        <div class="field">
+          <label>Destination</label>
+          <input
+            id="destination"
+            type="text"
+            placeholder="City or hotel name"
+          />
+        </div>
+        <div class="field">
+          <label>Check-in</label>
+          <input id="indate" type="date" />
+        </div>
+        <div class="field">
+          <label>Check-out</label>
+          <input id="outdate" type="date" />
+        </div>
+        <div class="field">
+          <label>Guests</label>
+          <select id="guest">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </div>
+        <div style="display: flex; align-items: flex-end">
+          <button
+            id="btnfindHotels"
+            onclick="findHotels(document.querySelector('#destination').value.trim())"
+          >
+            Find Hotels
+          </button>
+        </div>
+      </section>
+
+      <section
+        id="searchresult"
+        class="rooms"
+        aria-label="available rooms"
+      ></section>
+    </div>
+
+    <div id="myDIV">
+      <div class="item1">
+        <label>Checkin</label>
+        <input id="checkindatexxxx" type="date" />
+
+        <label>Checkout</label>
+        <input id="checkoutdatexxxx" type="date" />
+      </div>
+      <div class="item2">2</div>
+    </div>
+
+    <script>
+      var hotelsFound;
+
+      class clsUserRequest {
+        // 1. Data (Attribute) - Made Strictly Private
+        #Location;
+        #Checkindate;
+        #Checkoutdate;
+        #Guest;
+
+        // Constructor: Initializes the object's state
+        constructor(location, checkin, checkout, numguest) {
+          this.#Checkindate = checkin;
+          this.#Checkoutdate = checkout;
+          this.#Location = location;
+          this.#Guest = numguest;
+        }
+
+        get Checkin() {
+          return this.#Checkindate;
+        }
+
+        set Chekin(checkin) {
+          this.#Checkindate = checkin;
+        }
+
+        get Checkout() {
+          return this.#Checkoutdate;
+        }
+
+        set Chekout(checkout) {
+          this.#Checkoutdate = checkout;
+        }
+
+        get Location() {
+          return this.#Location;
+        }
+
+        set Location(location) {
+          this.#Location = location;
+        }
+
+        get Guest() {
+          return this.#Guest;
+        }
+
+        set Guest(guest) {
+          this.#Guest = guest;
+        }
+
+        SetUserRequest() {
+          this.Location = document.querySelector("#destination").value.trim();
+          this.outdate = document.querySelector("#outdate").value.trim();
+          this.indate = document.querySelector("#indate").value.trim();
+          this.Guest = document.querySelector("#guest").value.trim();
+        }
+      }
+
+      class clsHotel {
+        #Location;
+        #Name;
+        #Rating;
+        #Price;
+        #RoomType;
+        #Sleeps;
+        #Desc;
+        #Facility;
+        #MainImg;
+        #Id;
+
+        get Id() {
+          return this.#Id;
+        }
+
+        set Id(id) {
+          this.#Id = id;
+        }
+
+        get MainImg() {
+          return this.#MainImg;
+        }
+
+        set MainImg(imgpath) {
+          this.#MainImg = imgpath;
+        }
+
+        get Facility() {
+          return this.#Facility;
+        }
+
+        set Facility(facility) {
+          this.#Facility = facility;
+        }
+
+        get Facility() {
+          return this.#Facility;
+        }
+
+        set Desc(desc) {
+          this.#Desc = desc;
+        }
+
+        get Sleeps() {
+          return this.#Sleeps;
+        }
+
+        set Sleeps(num) {
+          this.#Sleeps = num;
+        }
+
+        get RoomType() {
+          return this.#RoomType;
+        }
+
+        set RoomType(type) {
+          this.#RoomType = type;
+        }
+
+        get Price() {
+          return this.#Price;
+        }
+
+        set Price(name) {
+          this.#Price = name;
+        }
+
+        get Name() {
+          return this.#Name;
+        }
+
+        set Name(name) {
+          this.#Name = name;
+        }
+
+        get Location() {
+          return this.#Location;
+        }
+
+        set Location(location) {
+          this.#Location = location;
+        }
+
+        get Rating() {
+          return this.#Rating;
+        }
+
+        set Rating(rating) {
+          this.#Rating = rating;
+        }
+
+        constructor(
+          id,
+          name,
+          location,
+          rating,
+          price,
+          roomtype,
+          sleeps,
+          desc,
+          facility,
+          mainimg
+        ) {
+          this.Id = id;
+          this.Name = name;
+          this.Location = location;
+          this.Rating = rating;
+          this.Price = price;
+          this.RoomType = roomtype;
+          this.#Sleeps = sleeps;
+          this.#Desc = desc;
+          this.#Facility = facility;
+          this.#MainImg = mainimg;
+        }
+      }
+
+      function populateHotel() {
+        const hotelsData = [
+          {
+            Id: "h0001",
+            Name: "Sunrise Resort",
+            Location: "York",
+            Rating: 4.5,
+            Price: "£120",
+            RoomType: "Deluxe Rooms",
+            Sleeps: 4,
+            Desc: "This is a nice place",
+            Facility: "Free wifi · Breakfast included",
+            MainImg: "./assets/images/hotel/radissonyork.avif",
+          },
+          {
+            Id: "h0002",
+            Name: "Mountain View Lodge",
+            Location: "York",
+            Rating: 4.2,
+            Price: "£180",
+            RoomType: "Junior Suites",
+            Sleeps: 4,
+            Desc: "This is a nice place",
+            Facility: "Free wifi · Breakfast included",
+            MainImg: "./assets/images/hotel/indigoyork.avif",
+          },
+          {
+            Id: "h0003",
+            Name: "City Center Hotel",
+            Location: "York",
+            Rating: 4.8,
+            Price: "£150",
+            RoomType: "Presidential Suites",
+            Sleeps: 4,
+            Desc: "This is a nice place",
+            Facility: "Free wifi · Breakfast included",
+            MainImg: "./assets/images/hotel/travelodgeyork.avif",
+          },
+          {
+            Id: "h0004",
+            Name: "Dalma Hoy",
+            Location: "Edinburgh",
+            Rating: 4.7,
+            Price: "£190",
+            RoomType: "Deluxe Rooms",
+            Sleeps: 4,
+            Desc: "This is a nice place",
+            Facility: "Free wifi · Breakfast included",
+            MainImg: "./assets/images/hotel/dalmahoyedinburgh.avif",
+          },
+          {
+            Id: "h0005",
+            Name: "Marriott Hotel",
+            Location: "Edinburgh",
+            Rating: 4.8,
+            Price: "£175",
+            RoomType: "Queen Rooms",
+            Sleeps: 4,
+            Desc: "This is a nice place",
+            Facility: "Free wifi · Breakfast included",
+            MainImg: "./assets/images/hotel/mariottedinburgh.avif",
+          },
+        ];
+
+        /*
+        FruitsList = [
+          { name: "apple", color: "red" },
+          { name: "grapes", color: "violet" },
+          { name: "avocado", color: "green" },
+        ];
+        const Food = FruitsList.map(({ name, color }) => {
+          return { fruitName: name, fruitColor: color };
+        });
+        */
+        hotelsFound = hotelsData.map(
+          (h) =>
+            new clsHotel(
+              h.Id,
+              h.Name,
+              h.Location,
+              h.Rating,
+              h.Price,
+              h.RoomType,
+              h.Sleeps,
+              h.Desc,
+              h.Facility,
+              h.MainImg
+            )
+        );
+
+        //alert(Food.length); // apple
+        //alert(Food[0].fruitColor); // red
+
+        // alert("Searching for hotels in " + hotelsData.length + " ...");
+      }
+
+      populateHotel();
+
+      function findHotels(dest) {
+        const search = document.getElementById("searchresult");
+        found = false;
+
+        let x = 0;
+
+        for (const hotel of hotelsFound) {
+          if (dest == hotel.Location) {
+            found = true;
+            // create the search object once
+            if (x == 0) {
+              search.innerHTML = getHTML(hotel);
+            } else {
+              //here create your HTML and append it to the rest of HTML.
+              search.insertAdjacentHTML("beforeend", getHTML(hotel));
+            }
+
+            x++;
+          }
+        }
+
+        if (found == false) {
+          const search = document.getElementById("searchresult");
+          search.innerHTML =
+            "<h1 style='color:black; text-align:center;' > No such data try again </h1>";
+        }
+
+        let company = {
+          name: "Apple",
+          founded: 1976,
+          financials: {
+            incomeStatement: {
+              years: [1991, 1990, 1989],
+              revenue: [125, 120, 115],
+              costs: [100, 100, 100],
+              profit: [25, 20, 15],
+            },
+            balanceSheet: {
+              years: [1991, 1990, 1989],
+              assets: [200, 190, 180],
+              liabilities: [100, 95, 90],
+              equity: [100, 95, 90],
+            },
+            cashFlow: {
+              years: [1991, 1990, 1989],
+              operating: [75, 65, 55],
+              investing: [22, 20, 18],
+              financing: [-94, -80, -75],
+            },
+          },
+          competitors: ["Microsoft", "Amazon", "Samsung"],
+        };
+
+        console.log(company.name);
+        console.log(company.competitors);
+
+        console.log(company.competitors[0]);
+        console.log(company.financials.incomeStatement.years);
+        console.log(company.financials.incomeStatement.revenue[0]);
+      }
+
+      //let redCars = cars.filter(car => car.color === "red");
+      //console.log(redCars);
+
+      /*
+        var course = {
+          InfoTech: [
+            "Information Systems",
+            "Internet Programming",
+            "Software Eng",
+          ],
+          BusComm: ["Commercial Law", "Accounting", "Financial Mng"],
+          Tourism: ["Travel Destination", "Travel Services", "Customer Mng"],
+        };
+        console.log(course.Tourism[1]);
+        console.log(course.BusComm);
+        console.log(course.InfoTech);
+         */
+      // const email = form.querySelector("input[type=email]")?.value || "";
+      // const dates = form.querySelectorAll("input[type=date]");
+      // const checkIn = dates[0]?.value || "N/A";
+      // const checkOut = dates[1]?.value || "N/A";
+
+      function getHTML(hotel) {
+        return `
+          <article class="card">
+           <div class="room-media galleryimgsize">
+             
+            <img
+              src="${hotel.MainImg} "
+              onclick="alert('Something need to be done')"
+            />
+          </div>
+          <div class="room-info">
+            <div>
+              <div class="meta">${hotel.Name}</div>
+              <div style="font-weight: 700">${hotel.RoomType} </div>
+              <div class="meta">${hotel.Facility}</div>
+            </div>
+            <div style="text-align: right">
+              <div class="price">${hotel.Price} / night</div>
+              <a href="#book-1" class="book-btn">Book</a>
+            </div>
+          </div>
+        </article
+        `;
+      }
+
+      // An individual player. Holds properties and behaviour for one player
+      class Player {
+        constructor(name) {
+          this.name = name;
+        }
+        play() {
+          console.log(this.name, "plays");
+        }
+      }
+
+      // Class that holds a collection of players and properties and functions for the group
+      class Players {
+        constructor() {
+          this.players = [];
+        }
+        // create a new player and save it in the collection
+        newPlayer(name) {
+          let p = new Player(name);
+          this.players.push(p);
+          return p;
+        }
+        // this could include summary stats like average score, etc. For simplicity, just the count for now
+        get numberOfPlayers() {
+          return this.players.length;
+        }
+      }
+
+      let league = new Players();
+      league.newPlayer("Mark");
+      league.newPlayer("Roger");
+
+      // list all the players
+      console.log(league.numberOfPlayers, "Players");
+      console.log(league.players);
+
+      // make them do something
+      league.players.forEach((player) => player.play());
+    </script>
+  </body>
+</html>

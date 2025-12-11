@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calendar Date Entry</title>
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --accent: #6ee7b7;
+        --muted: #9aa4b2;
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        margin: 20px;
+        /*background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);*/
+        color: #e6eef6;
+        /* color: #e6eef6; */
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 20px;
+      }
+      .card {
+        background: linear-gradient(145deg, #0b1220 0%, #1c2b4a 100%);
+        padding: 18px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      p.lead {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      input[type="date"],
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: var(--glass);
+        color: inherit;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .row .col {
+        flex: 1;
+      }
+      button {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 10px 12px;
+        border-radius: 9px;
+        color: inherit;
+        cursor: pointer;
+      }
+      button.primary {
+        background: linear-gradient(90deg, #0ea5a8, #6ee7b7);
+        color: #042023;
+        border: none;
+      }
+      ul.dates {
+        list-style: none;
+        padding: 0;
+        margin: 12px 0 0;
+        max-height: 260px;
+        overflow: auto;
+      }
+      li.date-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* mini calendar */
+      .mini-cal {
+        background: linear-gradient(180deg, #071726, #041423);
+        padding: 12px;
+        border-radius: 10px;
+      }
+      .cal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .cal-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+      }
+      .cal-grid div.head {
+        font-size: 11px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .cal-cell {
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .cal-cell:hover {
+        transform: translateY(-2px);
+      }
+      .cal-cell.inactive {
+        opacity: 0.35;
+      }
+      .cal-cell.selected {
+        background: linear-gradient(180deg, var(--accent), #0ea5a8);
+        color: #022a25;
+        font-weight: 600;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      footer.note {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      @media (max-width: 940px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+        .mini-cal {
+          order: -1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="card">
+        <h1>Calendar date entry</h1>
+        <p class="lead">
+          Pick dates using the controls or the mini calendar. Add single dates
+          or ranges, remove items, and export as CSV or ICS.
+        </p>
+
+        <div class="controls">
+          <div class="row">
+            <div class="col">
+              <label for="singleDate">Single date</label>
+              <input id="singleDate" type="date" />
+            </div>
+            <div
+              style="
+                width: 120px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+              "
+            >
+              <button id="addSingle">Add</button>
+            </div>
+          </div>
+
+          <div style="height: 8px">vvvvv</div>
+
+          <label>Range</label>
+          <div class="row">
+            <input id="rangeFrom" type="date" />
+            <input id="rangeTo" type="date" />
+            <div style="width: 90px">
+              <button id="addRange">Add range</button>
+            </div>
+          </div>
+
+          <div style="height: 6px"></div>
+          <label for="labelInput">Label (optional)</label>
+          <input
+            id="labelInput"
+            type="text"
+            placeholder="eg. Meeting, Holiday"
+          />
+
+          <div class="actions">
+            <button id="clearAll">Clear all</button>
+            <button id="exportCsv">Export CSV</button>
+            <button id="exportIcs" class="primary">Export ICS</button>
+          </div>
+
+          <footer class="note">
+            Dates are stored in-memory in this page. Use export to save them.
+          </footer>
+        </div>
+
+        <h3 style="margin-top: 14px">Selected dates</h3>
+        <ul id="datesList" class="dates" aria-live="polite"></ul>
+      </section>
+
+      <aside class="card mini-cal" aria-label="mini calendar">
+        <div class="cal-head">
+          <button id="prevMonth">◀</button>
+          <div style="text-align: center">
+            <div id="calMonthYear" style="font-weight: 700"></div>
+            <div class="muted" id="calSubtitle">Click a date to select</div>
+          </div>
+          <button id="nextMonth">▶</button>
+        </div>
+        <div class="cal-grid" id="calGrid">
+          <!-- weekdays + cells populated by JS -->
+        </div>
+        <div style="height: 10px"></div>
+        <div class="muted" style="font-size: 13px">
+          Tip: click date to focus it in the single-date input, then Add.
+        </div>
+      </aside>
+    </div>
+
+    <script>
+      (function () {
+        // state
+        const state = {
+          dates: new Map(), // key: yyyy-mm-dd -> {dateStr, label}
+          viewYear: new Date().getFullYear(),
+          viewMonth: new Date().getMonth(),
+        };
+
+        // helpers
+        const $ = (id) => document.getElementById(id);
+        const formatISO = (d) => d.toISOString().slice(0, 10);
+        const isoToReadable = (s) => {
+          const d = new Date(s);
+          return d.toDateString();
+        };
+
+        // DOM
+        const singleDate = $("singleDate");
+        const addSingle = $("addSingle");
+        const rangeFrom = $("rangeFrom");
+        const rangeTo = $("rangeTo");
+        const addRange = $("addRange");
+        const labelInput = $("labelInput");
+        const datesList = $("datesList");
+        const clearAll = $("clearAll");
+        const exportCsv = $("exportCsv");
+        const exportIcs = $("exportIcs");
+
+        // mini cal
+        const prevMonth = $("prevMonth");
+        const nextMonth = $("nextMonth");
+        const calGrid = $("calGrid");
+        const calMonthYear = $("calMonthYear");
+
+        function addDate(iso, label) {
+          if (!iso) return;
+          if (state.dates.has(iso)) return; // dedupe
+          state.dates.set(iso, { date: iso, label: label || "" });
+          refreshList();
+          renderMiniCalendar();
+        }
+
+        function removeDate(iso) {
+          state.dates.delete(iso);
+          refreshList();
+          renderMiniCalendar();
+        }
+
+        function addRangeDates(fromIso, toIso, label) {
+          const from = new Date(fromIso);
+          const to = new Date(toIso);
+          if (isNaN(from) || isNaN(to)) return;
+          if (from > to) [from, to] = [to, from];
+          for (let d = new Date(from); d <= to; d.setDate(d.getDate() + 1)) {
+            addDate(formatISO(new Date(d)), label);
+          }
+        }
+
+        function refreshList() {
+          datesList.innerHTML = "";
+          const arr = Array.from(state.dates.values()).sort((a, b) =>
+            a.date.localeCompare(b.date)
+          );
+          arr.forEach((item) => {
+            const li = document.createElement("li");
+            li.className = "date-item";
+            li.innerHTML = `<div><div style="font-weight:600">${
+              item.date
+            }</div><div class="muted">${
+              item.label || isoToReadable(item.date)
+            }</div></div>`;
+            const btn = document.createElement("button");
+            btn.textContent = "Remove";
+            btn.onclick = () => removeDate(item.date);
+            li.appendChild(btn);
+            datesList.appendChild(li);
+          });
+          if (arr.length === 0) {
+            const p = document.createElement("div");
+            p.className = "muted";
+            p.textContent = "No dates added yet.";
+            datesList.appendChild(p);
+          }
+        }
+
+        // calendar render
+        const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        function renderMiniCalendar() {
+          calGrid.innerHTML = "";
+          // header row
+          weekdayNames.forEach((w) => {
+            const d = document.createElement("div");
+            d.className = "head";
+            d.textContent = w;
+            calGrid.appendChild(d);
+          });
+
+          const year = state.viewYear,
+            month = state.viewMonth;
+          calMonthYear.textContent = new Date(year, month, 1).toLocaleString(
+            undefined,
+            { month: "long", year: "numeric" }
+          );
+
+          const first = new Date(year, month, 1);
+          const start = first.getDay();
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+          // previous month trailing
+          const prevMonthDays = new Date(year, month, 0).getDate();
+          for (let i = 0; i < start; i++) {
+            const day = prevMonthDays - start + 1 + i;
+            const cell = document.createElement("div");
+            cell.className = "cal-cell inactive";
+            cell.textContent = day;
+            calGrid.appendChild(cell);
+          }
+          // current month
+          for (let day = 1; day <= daysInMonth; day++) {
+            const iso = `${year.toString().padStart(4, "0")}-${String(
+              month + 1
+            ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            const cell = document.createElement("div");
+            cell.className = "cal-cell";
+            cell.textContent = day;
+            if (state.dates.has(iso)) cell.classList.add("selected");
+            cell.onclick = () => {
+              singleDate.value = iso;
+              singleDate.focus();
+            };
+            calGrid.appendChild(cell);
+          }
+          // trailing next month
+          const totalCells = start + daysInMonth;
+          const trailing = (7 - (totalCells % 7)) % 7;
+          for (let i = 1; i <= trailing; i++) {
+            const cell = document.createElement("div");
+            cell.className = "cal-cell inactive";
+            cell.textContent = i;
+            calGrid.appendChild(cell);
+          }
+        }
+
+        prevMonth.onclick = () => {
+          if (state.viewMonth === 0) {
+            state.viewMonth = 11;
+            state.viewYear--;
+          } else state.viewMonth--;
+          renderMiniCalendar();
+        };
+        nextMonth.onclick = () => {
+          if (state.viewMonth === 11) {
+            state.viewMonth = 0;
+            state.viewYear++;
+          } else state.viewMonth++;
+          renderMiniCalendar();
+        };
+
+        // events
+        addSingle.onclick = () => {
+          if (!singleDate.value) return alert("Choose a date first");
+          addDate(singleDate.value, labelInput.value);
+        };
+        addRange.onclick = () => {
+          if (!rangeFrom.value || !rangeTo.value)
+            return alert("Pick both from & to");
+          addRangeDates(rangeFrom.value, rangeTo.value, labelInput.value);
+        };
+        clearAll.onclick = () => {
+          if (!confirm("Clear all dates?")) return;
+          state.dates.clear();
+          refreshList();
+          renderMiniCalendar();
+        };
+
+        exportCsv.onclick = () => {
+          const rows = [["date", "label"]];
+          Array.from(state.dates.values())
+            .sort((a, b) => a.date.localeCompare(b.date))
+            .forEach((r) => rows.push([r.date, r.label]));
+          const csv = rows
+            .map((r) =>
+              r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")
+            )
+            .join("\n");
+          const blob = new Blob([csv], { type: "text/csv" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "dates.csv";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        };
+
+        // simple ICS export: create one-event-per-date
+        exportIcs.onclick = () => {
+          if (state.dates.size === 0) return alert("No dates to export");
+          const header = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Calendar Date Entry//EN`;
+          const footer = "\nEND:VCALENDAR";
+          const events = Array.from(state.dates.values())
+            .sort((a, b) => a.date.localeCompare(b.date))
+            .map((r, idx) => {
+              const dt = r.date.replace(/-/g, ""); // YYYYMMDD
+              return `\nBEGIN:VEVENT\nUID:${Date.now()}-${idx}@local\nDTSTAMP:${dt}T000000Z\nDTSTART;VALUE=DATE:${dt}\nDTEND;VALUE=DATE:${dt}\nSUMMARY:${
+                r.label || "" || "Event"
+              }\nEND:VEVENT`;
+            })
+            .join("");
+          const ics = header + events + footer;
+          const blob = new Blob([ics], { type: "text/calendar" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "dates.ics";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        };
+
+        // init
+        (function init() {
+          // set default inputs to today
+          const today = new Date();
+          const isoToday = formatISO(today);
+          singleDate.value = isoToday;
+          rangeFrom.value = isoToday;
+          rangeTo.value = isoToday;
+          renderMiniCalendar();
+          refreshList();
+        })();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simple Hotel Booking — Demo</title>
+    <style>
+      /* ===== Base ===== */
+      :root {
+        --accent: #0066cc;
+        --muted: #6b7280;
+        --bg: #f6f8fb;
+        --card: #ffffff;
+        --radius: 14px;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: #111;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 32px auto;
+        padding: 20px;
+      }
+
+      /* ===== Header / hero ===== */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), #00a3ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+      p.lead {
+        color: var(--muted);
+        margin: 6px 0 0;
+      }
+
+      /* ===== Search panel ===== */
+      .search {
+        background: var(--card);
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .search .field {
+        flex: 1;
+        min-width: 140px;
+      }
+      .search label {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      .search input[type="text"],
+      .search input[type="date"],
+      .search select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #e6eef9;
+        background: #fbfdff;
+      }
+      .search button {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      /* ===== Rooms grid ===== */
+      .rooms {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 22px;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 14px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .room-media {
+        height: 140px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #e6f2ff, #f7fbff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .room-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .price {
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .book-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 9px;
+        background: #eef6ff;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /* ===== Modal using :target (no JS) ===== */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 28px;
+      }
+      .overlay:target {
+        display: flex;
+      }
+      .modal {
+        background: var(--card);
+        width: 100%;
+        max-width: 520px;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 12px 30px rgba(2, 6, 23, 0.3);
+      }
+      .modal h2 {
+        margin: 0 0 6px;
+      }
+      .modal p {
+        color: var(--muted);
+        margin: 0 0 14px;
+      }
+      .modal form {
+        display: grid;
+        gap: 10px;
+      }
+      .modal input,
+      .modal select {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #e6eef9;
+      }
+      .modal .actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 6px;
+      }
+      .modal .btn {
+        padding: 10px 12px;
+        border-radius: 9px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn.confirm {
+        background: var(--accent);
+        color: white;
+      }
+      .btn.cancel {
+        background: #f3f4f6;
+      }
+
+      /* ===== Footer ===== */
+      footer {
+        margin-top: 28px;
+        color: var(--muted);
+        font-size: 14px;
+        text-align: center;
+      }
+
+      /* ===== Responsive ===== */
+      @media (max-width: 980px) {
+        .rooms {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .rooms {
+          grid-template-columns: 1fr;
+        }
+        .search {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand">
+          <div class="logo">HB</div>
+          <div>
+            <h1>HotelBook — Demo</h1>
+            <p class="lead">Search & reserve rooms in seconds</p>
+          </div>
+        </div>
+        <nav>
+          <small style="color: var(--muted)">No payments — demo only</small>
+        </nav>
+      </header>
+
+      <section class="search" aria-label="search panel">
+        <div class="field">
+          <label>Destination</label>
+          <input type="text" placeholder="City or hotel name" />
+        </div>
+        <div class="field">
+          <label>Check-in</label>
+          <input type="date" />
+        </div>
+        <div class="field">
+          <label>Check-out</label>
+          <input type="date" />
+        </div>
+        <div class="field">
+          <label>Guests</label>
+          <select>
+            <option>1 guest</option>
+            <option>2 guests</option>
+            <option>3 guests</option>
+          </select>
+        </div>
+        <div style="display: flex; align-items: flex-end">
+          <button>Find rooms</button>
+        </div>
+      </section>
+
+      <section class="rooms" aria-label="available rooms">
+        <!-- Room 1 -->
+        <article class="card">
+          <div class="room-media">Deluxe Sea View</div>
+          <div class="room-info">
+            <div>
+              <div style="font-weight: 700">Deluxe Double</div>
+              <div class="meta">Free wifi · Breakfast included</div>
+            </div>
+            <div style="text-align: right">
+              <div class="price">£120 / night</div>
+              <a href="#book-1" class="book-btn">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Room 2 -->
+        <article class="card">
+          <div class="room-media">City View</div>
+          <div class="room-info">
+            <div>
+              <div style="font-weight: 700">Standard Twin</div>
+              <div class="meta">City centre · Free cancellation</div>
+            </div>
+            <div style="text-align: right">
+              <div class="price">£85 / night</div>
+              <a href="#book-2" class="book-btn">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Room 3 -->
+        <article class="card">
+          <div class="room-media">Garden</div>
+          <div class="room-info">
+            <div>
+              <div style="font-weight: 700">Family Suite</div>
+              <div class="meta">Spacious · Sleeps 4</div>
+            </div>
+            <div style="text-align: right">
+              <div class="price">£160 / night</div>
+              <a href="#book-3" class="book-btn">Book</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===== Modal overlays (one per room) ===== -->
+      <div id="book-1" class="overlay" aria-hidden="false">
+        <div class="modal">
+          <h2>Book Deluxe Double</h2>
+          <p>£120 / night — Free breakfast</p>
+          <form>
+            <input type="text" placeholder="Full name" required />
+            <input type="email" placeholder="Email address" required />
+            <div style="display: flex; gap: 8px">
+              <input type="date" />
+              <input type="date" />
+            </div>
+            <div class="actions">
+              <a href="#" class="btn cancel">Cancel</a>
+              <button class="btn confirm">Confirm booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="book-2" class="overlay">
+        <div class="modal">
+          <h2>Book Standard Twin</h2>
+          <p>£85 / night — Free cancellation</p>
+          <form>
+            <input type="text" placeholder="Full name" required />
+            <input type="email" placeholder="Email address" required />
+            <div style="display: flex; gap: 8px">
+              <input type="date" />
+              <input type="date" />
+            </div>
+            <div class="actions">
+              <a href="#" class="btn cancel">Cancel</a>
+              <button class="btn confirm">Confirm booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="book-3" class="overlay">
+        <div class="modal">
+          <h2>Book Family Suite</h2>
+          <p>£160 / night — Sleeps up to 4</p>
+          <form>
+            <input type="text" placeholder="Full name" required />
+            <input type="email" placeholder="Email address" required />
+            <div style="display: flex; gap: 8px">
+              <input type="date" />
+              <input type="date" />
+            </div>
+            <div class="actions">
+              <a href="#" class="btn cancel">Cancel</a>
+              <button class="btn confirm">Confirm booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <footer>
+        This is a static demo — to accept payments, persist bookings, or show
+        live availability you would add a server and some JavaScript.
+      </footer>
+    </div>
+
+    <script>
+      // Enhanced room search functionality using a reusable class
+      class HotelSearch {
+        constructor(options) {
+          this.rooms = document.querySelectorAll(options.rooms);
+          this.destinationInput = document.querySelector(options.destination);
+          this.guestsSelect = document.querySelector(options.guests);
+          this.button = document.querySelector(options.button);
+          this.button.addEventListener("click", () => this.search());
+        }
+
+        parseGuests() {
+          const val = parseInt(this.guestsSelect.value, 10);
+          return Number.isFinite(val) ? val : 1;
+        }
+
+        search() {
+          const dest = (this.destinationInput.value || "").trim().toLowerCase();
+          const guests = this.parseGuests();
+
+          this.rooms.forEach((room) => {
+            const text = (room.innerText || "").toLowerCase();
+            const matchDest = dest === "" || text.includes(dest);
+            const capacity = parseInt(room.dataset.capacity || "1", 10);
+            const matchGuests = guests <= capacity;
+
+            room.style.display = matchDest && matchGuests ? "flex" : "none";
+          });
+
+          const visible = Array.from(this.rooms).filter(
+            (r) => r.style.display !== "none"
+          ).length;
+          alert(
+            visible > 0
+              ? `${visible} room(s) found`
+              : "No rooms match your search"
+          );
+        }
+      }
+
+      // Initialize search system
+      const searchSystem = new HotelSearch({
+        rooms: ".rooms .card",
+        destination: ".search input[type=text]",
+        guests: ".search select",
+        button: ".search button",
+      });
+
+      // Booking system using a class
+      class BookingSystem {
+        constructor(selector) {
+          this.forms = document.querySelectorAll(selector);
+          this.attach();
+        }
+
+        attach() {
+          this.forms.forEach((form) => {
+            form.addEventListener("submit", (e) => this.handleSubmit(e, form));
+          });
+        }
+
+        handleSubmit(e, form) {
+          e.preventDefault();
+
+          const name = form.querySelector("input[type=text]")?.value || "Guest";
+          const email = form.querySelector("input[type=email]")?.value || "";
+          const dates = form.querySelectorAll("input[type=date]");
+          const checkIn = dates[0]?.value || "N/A";
+          const checkOut = dates[1]?.value || "N/A";
+
+          alert(`Booking submitted!
+          Name: ${name}
+          Email: ${email}
+          Check-in: ${checkIn}
+          Check-out: ${checkOut}`);
+
+          // Close modal
+          history.pushState(
+            "",
+            document.title,
+            window.location.pathname + window.location.search
+          );
+        }
+      }
+
+      // Initialize booking system
+      const bookingSystem = new BookingSystem(".modal form");
+    </script>
+  </body>
+</html>

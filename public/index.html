@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Plan My XXXX Day</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Plan My Day</h1>
+
+    <div class="section">
+      <label for="city">City:</label>
+      <input type="text" id="city" value="Nottingham" />
+      <button onclick="getWeather()">Get Weather</button>
+      <p id="weather"></p>
+    </div>
+
+    <div class="section">
+      <button onclick="getCoffee()">Find Coffee Shops</button>
+      <ul id="coffee-list"></ul>
+    </div>
+
+    <div class="section">
+      <label for="mood">Mood:</label>
+      <select id="mood">
+        <option value="chill">Chill</option>
+        <option value="sunny">Sunny</option>
+        <option value="rainy">Rainy</option>
+      </select>
+      <button onclick="getPlaylist()">Get Playlist</button>
+      <p id="playlist"></p>
+    </div>
+
+    <script>
+      async function getWeather() {
+        const city = document.getElementById("city").value;
+        const res = await fetch(`/weather?city=${city}`);
+        const data = await res.json();
+        document.getElementById(
+          "weather"
+        ).textContent = `Temp: ${data.main.temp}°C, ${data.weather[0].description}`;
+      }
+
+      async function getCoffee() {
+        // Use Nottingham coordinates
+        const res = await fetch(`/coffee?lat=52.9548&lng=-1.1581`);
+        const data = await res.json();
+        const list = document.getElementById("coffee-list");
+        list.innerHTML = "";
+        data.forEach((shop) => {
+          const item = document.createElement("li");
+          item.textContent = shop.name;
+          list.appendChild(item);
+        });
+      }
+
+      async function getPlaylist() {
+        const mood = document.getElementById("mood").value;
+        const res = await fetch(`/playlist?mood=${mood}`);
+        const data = await res.json();
+        document.getElementById(
+          "playlist"
+        ).innerHTML = `<a href="${data.external_urls.spotify}" target="_blank">${data.name}</a>`;
+      }
+    </script>
+  </body>
+</html>

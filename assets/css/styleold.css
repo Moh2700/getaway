@@ -1,0 +1,559 @@
+
+/* global styles */
+@import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
+
+.slabo-13px-regular {
+  font-family: "Slabo 13px", sans-serif;
+  /*font-weight: 400;*/
+  font-style:normal;
+  font-size: x-small;
+  padding:0;
+  margin:0;
+  box-sizing: border-box;
+}
+
+/* main Home section */
+main {
+  background-color:lightblue;
+  /* Make main element take up any surplus space  to push footer down */
+  flex: 1 0 auto;
+  margin-top: 47px;
+  width:100%
+}
+
+.mapcontainer {
+  width:100%;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction: column;
+}
+
+
+#gymmap {
+  width: 100%;
+  height: 400px;
+  background-color: grey;
+}
+
+
+h1, h2 {
+    font-family: 'Slabo 13px', sans-serif;
+    color:  #184f63; /* mid-blue */
+}
+
+ .standbackcol {
+    background-color: #a4c2d1; /* egg blue */
+ }
+
+ 
+
+.image-container img {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  background-color: white;
+  padding: 10px;
+}
+
+
+ /* gym class section */
+#gymclass {
+    
+    text-align: center;
+    padding: 55px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+ .desc {
+  background-color: lavender;
+  align-content: center;
+  font-size: large;
+  font-weight: bold;
+}
+
+.gymdeal-text {
+  font-style: italic;
+  color: #555;
+}
+
+.col1 {
+  background-color: lavender;
+}
+.col2 {
+  background-color: lavenderblush;
+}
+
+#gymclass p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #184f63; 
+}
+
+#gymclass h3 {
+    color: black; 
+    font-weight: bold;
+}
+
+ /*navbar log section */
+.logocontainer {
+    height: 50px;
+    width: 50px;
+    left: 0;
+    position: fixed;
+    top: 0;
+    z-index: 1;  
+}
+
+#logo {
+    background-image: url("./assets/images/gymlogo.png") ;
+}
+
+
+ /*Navbar section */
+.navbar {
+  background-color: #1F89EF; 
+  margin-top: 0;
+  padding: 1rem 0;
+  font-weight: bold;
+  position: fixed;
+  height:50px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+}
+
+.navbar a {
+ color: white; 
+  margin-left: 55px;
+}
+
+.navbar a:hover {
+  color: black;
+}
+
+.samelayout {
+  min-width: 100%;
+  border: solid 1px #E5EFFA;
+  border-radius: 5px;
+  height:38px;
+
+}
+
+/*footer section*/
+#aboutfooter  {
+   background-color: #f4f7fc;
+   height: 200px ;
+   text-align: center;
+}
+
+#aboutfooter > h1 {
+   text-align: center;
+}
+
+#social-networks {
+   text-align: center;
+   padding: 20px 0;
+   display:flex;
+   justify-content: space-evenly;
+   /* remove the bullet in list next to the icons */ 
+   list-style-type: none;
+}
+
+#social-networks i {
+   /*font-size: 160%;*/
+   padding: 5%;
+   color:#3a3a3a;
+}
+
+
+
+.weekday:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+.weekday {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    border: solid 1px black;
+    border-radius: 5px;
+    background-color: #1f89ef;
+    color: white;
+    font-size: small;
+    font-weight: normal;
+}
+
+.centerelement {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    
+  }
+.discount {
+   background-color: #161153;
+   color:#F7F8FC;
+} 
+
+.monthlyoffer {
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 20px;
+    z-index: 2;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    border: solid 1px black;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    margin-top:10px;
+}
+
+.gymoffer {
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 20px;
+    z-index: 2;
+    /*width: 200px;*/
+    max-width:100%;
+    height: 50px;
+    text-align: center;
+    border: solid 1px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deals{
+  padding-top: 20px;
+  word-wrap: break-word;
+  width: 400px;
+  height: 150px;
+  border-radius: 20px;
+  border: solid 1px black;
+  text-align: center;
+  padding-bottom: 20px;
+  align-items: center;;
+   
+}
+
+
+/*====Membership=====*/
+.gymdeal-saver {
+  border: 5px solid violet;
+  margin-bottom:0px !important; 
+}
+
+.gymdealtype {
+  border-radius: 12px;
+  background-color: #E5EFFA;
+  font-size:xx-small;
+  margin-bottom:0px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /*transition: transform 0.3s; */ 
+}
+
+.dealsaver  p {
+  white-space:nowrap;
+}
+
+.savertype {
+  border: 2px solid violet;
+  text-align: center;
+}
+
+.dealheader
+{
+  border: 2px solid blue;
+  text-align: center;
+}
+
+.happytype:hover  {
+  background-color: bisque;
+  
+}
+
+.ultimatetype:hover {
+  background-color:bisque;
+}
+
+.happytype {
+  border: 2px solid red;
+  text-align: center;
+
+}
+
+.ultimatetype {
+  border: 2px solid blue;
+  text-align: center;
+}
+
+
+/* Gym gallery */
+ h1 {
+  font-size: 50px;
+  word-break: break-all;
+}
+
+/*===============w3 schools code image rendering==========================*/
+.row {
+  margin: 8px -16px;
+}
+
+/* Add padding BETWEEN each column */
+.row,
+.row > .column {
+  padding: 8px;
+}
+
+/* Create four equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 25%;
+  height:100%;
+}
+
+/* Clear floats after rows */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Content */
+.content {
+  background-color: white;
+  padding: 10px;
+}
+
+/*=========================================*/
+
+.galleryimgsize {
+  height :300px;
+  width:100%
+}
+
+      /* makes a two column-layout instead of four columns */
+      @media screen and (max-width: 900px) {
+        .column {
+          width: 50%;
+        }
+      }
+
+      /*makes the two columns stack on top of each other instead of next to each other */
+      @media screen and (max-width: 600px) {
+        .column {
+          width: 100%;
+        }
+      }
+
+      .setback {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 
+          rgba(0, 0, 0, 0.19);
+          
+      }
+      .hotel-img {
+        border-radius: 25px;
+        /* 
+        background-image: url(paper.gif); 
+        background-position: left top;
+        background-repeat: repeat;
+        padding: 20px; 
+        */
+
+        
+        width: 100%;
+        height:100%; 
+        
+        object-fit: cover;
+       
+     }
+
+      .user-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      /*
+      .hotel-deal:hover {
+        transform: translateX(5px);
+      }
+      */
+      .hotel-deal {
+        background: #EBFDEC;
+        border-radius: 12px;
+        box-shadow:2px 3px 5px #7a1818;
+        
+        /*transition: transform 0.3s;*/
+        width:300px;
+        float:right;
+        /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+        
+        /*
+        box-shadow: 2 4px 12px rgba(184, 20, 20, 0.05);
+        padding: 10px;
+        transition: transform 0.3s;
+        */
+        height: 100%;
+        border: 2px solid green;
+        
+      }
+
+      .testimonial-card {
+        background: #fff;
+        border-radius: 12px;
+        /*box-shadow: 2 4px 12px rgba(0, 0, 0, 0.05);*/
+        /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+        
+        /*
+        
+        padding: 10px;
+        transition: transform 0.3s;
+        */
+        height: 100%;
+        border: 5px solid violet;
+        
+      }
+      /*
+      .testimonial-card:hover {
+        transform: translateY(-5px);
+      }
+        */
+      .user-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .testimonial-text {
+        font-style: italic;
+        color: #555;
+      }
+
+
+.image-container {
+  aspect-ratio: 16 / 9 ;
+  
+}
+
+
+/* For devices with a minimum width of 320px (small) and up 1440px*/
+@media screen and (min-width: 320px)  and (max-width: 1440px) {
+  
+    .weekday:hover {
+    background-color: red;
+    cursor: pointer;
+    }
+
+    #aboutfooter > h1 {
+     font-family: 'Slabo 13px';
+     font-size:large;
+     text-align: center;
+
+    }
+
+    /*navbar log section */
+    .logocontainer {
+       height: 35px;
+       width: 58px;
+       position: absolute;
+       top:10px;
+       z-index:1;  
+    }
+
+    .navbar div.container-fluid {
+      background-color:#1F89EF;
+      color:white;
+    }
+     
+    .navbar-toggler {
+      left: 90%; /* fallback if needed */
+      left: calc(100% - 3em);
+      position: fixed;
+      top: 10px;
+      width:30px;
+      height:28px;
+
+    }
+
+    .navbar span.navbar-toggler-icon {
+      left: 90%; /* fallback if needed */
+      left: calc(100% - 3em);
+      position: fixed;
+      top: 10px;
+      height:26px;
+    }
+
+    h1 {
+      font-family: 'Slabo 13px', sans-serif;
+      font-weight: 200;
+      font-size:large;
+      text-align: center;
+    }
+
+    p {
+      font-family: 'Slabo 13px', sans-serif;
+      font-weight: 400;
+      font-size:x-small;
+    }
+      
+
+    .gymdeal-text {
+      font-style: italic;
+      color: blue;
+    }
+
+   .gymoffer , .discount > p {
+     font-family: 'Slabo 13px', sans-serif;
+     font-weight: 200;
+     font-size:large;
+     text-align: center;
+   }
+
+}
+
+.gymbackgrndimg   {
+ width: 100%; 
+ height: 650px;
+  
+}
+@media screen and (min-width: 768px)  and (max-width: 1440px) {
+
+  .monthlyoffer {
+      font-weight: bold;
+      width: 300px;
+      height: 80px;
+  }
+
+}
+
+@media screen and (min-width: 320px)  and (max-width: 768px) {
+  
+  .gymbackgrndimg  {
+     width:95%;
+     height:300px;
+     object-fit: cover;
+     padding:5px;
+     padding-left: 20px;
+  }
+}
+
+
+#reducefont > p { 
+    text-align: left; 
+    font-size:9px; 
+    text-wrap: nowrap;
+  }

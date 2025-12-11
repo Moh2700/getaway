@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Directory</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f3f3;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #1a237e;
+        margin-bottom: 30px;
+      }
+
+      .hotel-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .hotel-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .hotel-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .hotel-card h2 {
+        margin: 0;
+        color: #333;
+      }
+
+      .hotel-info {
+        color: #666;
+        margin-top: 5px;
+        font-size: 0.95em;
+      }
+
+      .rating {
+        color: #f4b400;
+        margin: 10px 0;
+      }
+
+      .summary {
+        margin: 10px 0;
+        color: #444;
+      }
+
+      details summary {
+        cursor: pointer;
+        color: #1565c0;
+        font-weight: bold;
+      }
+
+      ul {
+        margin: 5px 0 0 20px;
+        color: #555;
+        font-size: 0.95em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🏨 Hotel Directory</h1>
+    <div id="hotelList" class="hotel-container"></div>
+
+    <script>
+      // ---------- Room Class ----------
+      class Room {
+        constructor(type, price, totalRooms, availableRooms) {
+          this.type = type;
+          this.price = price;
+          this.totalRooms = totalRooms;
+          this.availableRooms = availableRooms;
+        }
+      }
+
+      // ---------- Hotel Class ----------
+      class Hotel {
+        constructor(name, location, rating, rooms = []) {
+          this.name = name;
+          this.location = location;
+          this.rating = rating;
+          this.rooms = rooms;
+        }
+
+        getAvailableRooms() {
+          return this.rooms.reduce((sum, room) => sum + room.availableRooms, 0);
+        }
+
+        getAveragePrice() {
+          if (this.rooms.length === 0) return 0;
+          const total = this.rooms.reduce((sum, room) => sum + room.price, 0);
+          return Math.round(total / this.rooms.length);
+        }
+
+        getHTML() {
+          return `
+          <div class="hotel-card">
+            <h2>${this.name}</h2>
+            <p class="hotel-info">📍 ${this.location}</p>
+            <p class="rating">⭐ ${this.rating}/5</p>
+            <p class="summary">
+              <strong>${this.getAvailableRooms()}</strong> rooms available<br>
+              Avg. Price: <strong>£${this.getAveragePrice()}</strong>/night
+            </p>
+            <details>
+              <summary>View Room Details</summary>
+              <ul>
+                ${this.rooms
+                  .map(
+                    (r) => `
+                  <li>${r.type} — £${r.price}/night (${r.availableRooms}/${r.totalRooms} available)</li>
+                `
+                  )
+                  .join("")}
+              </ul>
+            </details>
+          </div>
+        `;
+        }
+      }
+
+      // ---------- Sample Data ----------
+      const hotels = [
+        new Hotel("Grand Palace", "London", 4.8, [
+          new Room("Standard", 80, 50, 20),
+          new Room("Deluxe", 150, 30, 10),
+          new Room("Suite", 250, 10, 2),
+        ]),
+        new Hotel("Seaside Resort", "Brighton", 4.5, [
+          new Room("Ocean View", 200, 40, 15),
+          new Room("Family Room", 180, 20, 8),
+          new Room("Penthouse", 350, 5, 1),
+        ]),
+        new Hotel("Mountain Lodge", "Lake District", 4.2, [
+          new Room("Standard", 100, 25, 10),
+          new Room("Cabin", 180, 15, 5),
+        ]),
+        new Hotel("Skyline Inn", "Manchester", 4.0, [
+          new Room("Economy", 70, 40, 22),
+          new Room("Business", 130, 20, 5),
+        ]),
+        new Hotel("Sahara Sands", "Dubai", 5.0, [
+          new Room("Luxury Suite", 400, 10, 3),
+          new Room("Royal Suite", 800, 5, 2),
+        ]),
+      ];
+
+      // ---------- Render Hotels ----------
+      const hotelList = document.getElementById("hotelList");
+      function renderHotels() {
+        hotelList.innerHTML = hotels.map((hotel) => hotel.getHTML()).join("");
+      }
+
+      renderHotels();
+    </script>
+  </body>
+</html>

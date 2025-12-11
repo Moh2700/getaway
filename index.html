@@ -33,109 +33,137 @@
 
     <link rel="stylesheet" href="./assets/css/style.css" />
 
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://use.fontawesome.com/a03fb08303.js"></script>
   </head>
 
-  <body class="setback" style="padding-left: 10px; padding-right: 10px">
-    <div class="container-fluid">
-      <div class="row g-1">
-        <div class="col-6" style="border: 5px solid violet">
-          <div class="p-3 border bg-light">
-            <button type="button" class="btn btn-primary">Filters</button>
-            <button type="button" class="btn btn-primary">Price</button>
-            <button type="button" class="btn btn-primary">Location</button>
-            <button type="button" class="btn btn-primary">Breakfast</button>
-            <button type="button" class="btn btn-primary">Wifi</button>
-          </div>
-        </div>
-        <div class="col-6" style="border: 5px solid violet">
-          <div class="p-3 border">
-            <button type="button" class="btn btn-primary">Pet Friendly</button>
-            <button type="button" class="btn btn-primary">Guest/Rooms</button>
-            <button type="button" class="btn btn-primary">Check In/Out</button>
-            <button type="button" class="btn btn-primary">Map</button>
-            <!-- Trigger the modal with a button -->
-            <button
-              type="button"
-              class="btn btn-info btn-lg"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              Open Modal
-            </button>
-            <a href="http://127.0.0.1:5500/map.html">Visit W3Schools.com!</a>
-          </div>
-        </div>
-      </div>
-    </div>
+  <style></style>
 
-    <div style="border: 2px solid blue; border-radius: 25px">
-      <div class="row g-2" style="padding-left: 20px">
-        <div class="col-sm-2">
-          <div class="testimonial-card">
-            <div>
-              <img
-                src="./assets/images/hotel/milneryork.avif"
-                class="hotel-img"
-              />
+  <body class="setback">
+    <header>
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <img
+            class="logocontainer"
+            id="logo"
+            alt="Logo"
+            src="./assets/images/favicon/gymlogo.png"
+            width="50"
+            height="50"
+          />
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="destoffer.html"> Offers </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="calendar2.html">Calendar </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="Hotel.html">Hotels </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="Gallery">Gallery</a>
+              </li>
+
+              <li class="dropsubmenu">
+                <a class="nav-link">Holidays </a>
+                <div class="dropsubmenu-content">
+                  <p>Walking</p>
+                  <p>Mountainering</p>
+                  <p>Safari</p>
+                  <p>Cultural</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="dealbanner">
+        <h2>
+          Save 10% or more on hotel stays of 14 nights - terms and conditions
+          apply.
+        </h2>
+      </div>
+
+      <div class="hotelrow">
+        <div class="row g-2" style="padding-left: 20px">
+          <div class="col-sm-2">
+            <div class="testimonial-card">
+              <div>
+                <img
+                  src="./assets/images/hotel/milneryork.avif"
+                  class="hotel-img"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="testimonial-card">
+              <div>
+                <h6>Premier Inn York City - Blossom St North</h6>
+                <ul>
+                  <li>Restaurant with Reasonable Prices and Viking history</li>
+                  <li>0.6 miles to city centre</li>
+                  <li>8.6 Excellent (11499 ratings)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6" style="padding-right: 15px">
+            <div class="hotel-deal">
+              <div>
+                <h6>Hotel Site</h6>
+                <ul>
+                  <li>Book Direct with hotel</li>
+                  <li>Free Cancellation</li>
+                  <li>£237</li>
+                </ul>
+
+                <button type="button" style="float: right">View Deal</button>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="col-sm-4">
-          <div class="testimonial-card">
-            <div>
-              <h6>Premier Inn York City - Blossom St North</h6>
-              <ul>
-                <li>Restaurant with Reasonable Prices and Viking history</li>
-                <li>0.6 miles to city centre</li>
-                <li>8.6 Excellent (11499 ratings)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6" style="padding-right: 15px">
-          <div class="hotel-deal">
-            <div>
-              <h6>Hotel Site</h6>
-              <ul>
-                <li>Book Direct with hotel</li>
-                <li>Free Cancellation</li>
-                <li>£237</li>
-              </ul>
-
-              <button type="button" style="float: right">View Deal</button>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
-            </button>
-            <h4 class="modal-title">Modal Header</h4>
-          </div>
-          <div class="modal-body">
-            <p>Some text in the modal.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </main>
   </body>
 </html>
